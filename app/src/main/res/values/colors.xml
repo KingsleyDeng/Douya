@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">#00BBD3</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -9,7 +10,7 @@
     <color name="colorNightBg">#303030</color>
     <color name="colorMovie">#009688</color>
     <color name="colorAnime">#F7BACF</color>
-    <color name="colorTV">#FE9700</color>
+    <color name="colorTV">#ffc525</color>
     <color name="colorTop250">#00BBD3</color>
     <color name="colorTag">#785447</color>
     <color name="colorTagLight1">#bb9e94</color>

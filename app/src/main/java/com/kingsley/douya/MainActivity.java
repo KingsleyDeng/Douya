@@ -146,8 +146,8 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
      * 设置title和主题颜色
      */
     private void setTitleAndColor(int item, String title, int color, int styleid) {
-        tabAtPosition = item;
 
+        tabAtPosition = item;
         viewpager.setCurrentItem(item,false);
         toolbar.setTitle(title);
         toolbar.setBackgroundColor(color);
