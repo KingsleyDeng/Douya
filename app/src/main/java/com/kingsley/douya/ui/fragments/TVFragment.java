@@ -1,5 +1,6 @@
 package com.kingsley.douya.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.kingsley.douya.base.BaseLazyFragment;
 import com.kingsley.douya.model.MessageEvent;
 import com.kingsley.douya.model.MovieSubjectsModel;
 import com.kingsley.douya.presenter.TVPresenter;
+import com.kingsley.douya.ui.activity.MovieDetailActivity;
 import com.kingsley.douya.ui.iview.ITVView;
 import com.zhy.adapter.recyclerview.wrapper.HeaderAndFooterWrapper;
 
@@ -166,6 +168,13 @@ public class TVFragment extends BaseLazyFragment<ITVView, TVPresenter> implement
 
     @Override
     public void onItemClick(int position, String id, String img_url, String title) {
-
+        Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("theme", R.style.TVThemeTransNav);
+        intent.putExtra("img_url", img_url);
+        intent.putExtra("title", title);
+        intent.putExtra("movieSubject", movieModelBeans.get(position));
+        intent.putExtra("color", getResources().getColor(R.color.colorTV));
+        startActivity(intent);
     }
 }

@@ -1,6 +1,7 @@
 package com.kingsley.douya;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.kingsley.douya.adapter.FragmentAdapter;
+import com.kingsley.douya.model.MessageEvent;
+import com.kingsley.douya.ui.activity.FavoriteActivity;
 import com.kingsley.douya.ui.fragments.AnimFragment;
 import com.kingsley.douya.ui.fragments.MovieFragment;
 import com.kingsley.douya.ui.fragments.TVFragment;
@@ -23,10 +26,12 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnTabSelectListener, OnTabReselectListener, View.OnClickListener, Toolbar.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity implements OnTabSelectListener, OnTabReselectListener, View.OnClickListener, Toolbar.OnMenuItemClickListener, NavigationView.OnNavigationItemSelectedListener {
 
 
     private NavigationView navigationview;
@@ -38,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
     private BottomBar bottomBar;
 
     private NoScrollViewPager viewpager;
+
+    private Intent intent;
 
     //当前tab页面
     private int tabAtPosition = 0;
@@ -86,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
         viewpager.setNoScroll(true); // viewpager禁止滑动
         viewpager.setOffscreenPageLimit(4); // 默认加载5页
         viewpager.setAdapter(fragmentAdapter);
+
+        navigationview.setNavigationItemSelectedListener(this);
 
 
         bottomBar.setOnTabSelectListener(this);//底部导航栏时间
@@ -148,11 +157,55 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
     private void setTitleAndColor(int item, String title, int color, int styleid) {
 
         tabAtPosition = item;
-        viewpager.setCurrentItem(item,false);
+
+        if (MyApplication.NIGHT_MODE) {
+            color = getResources().getColor(R.color.colorNight);
+            styleid = R.style.NightThemeTransNav;
+        }
+
+        viewpager.setCurrentItem(item, false);
         toolbar.setTitle(title);
         toolbar.setBackgroundColor(color);
         navigationview.setBackgroundColor(color);
-
+        intent = new Intent();
+        intent.putExtra("theme", styleid);
+        intent.putExtra("color", color);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        item.setCheckable(false);
+        switch (item.getItemId()) {
+            case R.id.nav_favorite://收藏
+                intent.setClass(this, FavoriteActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_sun_mode:
+                setDayNightMode(false);
+                break;
+            case R.id.nav_night_mode:
+                setDayNightMode(true);
+                break;
+        }
+        drawerlayout.closeDrawers();
+        return true;
+    }
+
+    /**
+     * 设置夜间模式
+     *
+     * @param isNight 是否夜间模式
+     */
+    private void setDayNightMode(boolean isNight) {
+        if (isNight) {
+            bottomBar.setItems(R.xml.bottombar_night_tabs);
+            viewpager.setBackgroundColor(getResources().getColor(R.color.colorNightBg));
+        } else {
+            bottomBar.setItems(R.xml.bottombar_tabs);
+            viewpager.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+        }
+        MyApplication.NIGHT_MODE = isNight;
+        bottomBar.selectTabAtPosition(tabAtPosition);
+        EventBus.getDefault().post(new MessageEvent(isNight));
+    }
 }
