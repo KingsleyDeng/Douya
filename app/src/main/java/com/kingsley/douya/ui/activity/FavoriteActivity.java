@@ -190,7 +190,7 @@ public class FavoriteActivity extends BaseActivity<IFavoriteView, FavoritePresen
     }
 
     @Override
-    public void onItemClick(int position, String id, String img_url, String title) {
+    public void onItemClick(int position, String id, String img_url, String title, String alt) {
         movieModelBean = movieModelBeans.get(position);
         Intent intent = new Intent(this, MovieDetailActivity.class);
         intent.putExtra("id", id);

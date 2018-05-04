@@ -167,7 +167,7 @@ public class MovieFragment extends BaseLazyFragment<IMovieView, MoviePresenter> 
     }
 
     @Override
-    public void onItemClick(int position, String id, String img_url, String title) {
+    public void onItemClick(int position, String id, String img_url, String title,String alt) {
         Intent intent = new Intent(getContext(), MovieDetailActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("theme", R.style.MovieThemeTransNav);
@@ -175,6 +175,7 @@ public class MovieFragment extends BaseLazyFragment<IMovieView, MoviePresenter> 
         intent.putExtra("title", title);
         intent.putExtra("movieSubject", movieModelBeans.get(position));
         intent.putExtra("color", getResources().getColor(R.color.colorMovie));
+        intent.putExtra("alt",alt);
         startActivity(intent);
     }
 

@@ -112,7 +112,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
             @Override
             public void onClick(View view) {
                 if (!isCheck) {
-                    mOnItemClickListener.onItemClick(holder.getAdapterPosition(), subjectsBean.getMovie_id(), subjectsBean.getImages().getLarge(), subjectsBean.getTitle());
+                    mOnItemClickListener.onItemClick(holder.getAdapterPosition(), subjectsBean.getMovie_id(), subjectsBean.getImages().getLarge(), subjectsBean.getTitle(),subjectsBean.getAlt());
                 } else {
                     if (selectPositions.contains(holder.getAdapterPosition())) {
                         selectPositions.remove((Integer) holder.getAdapterPosition());//存在 - 移除
@@ -191,7 +191,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     }
 
     public interface IOnItemClickListener {
-        void onItemClick(int position, String id, String img_url, String title);
+        void onItemClick(int position, String id, String img_url, String title,String alt);
     }
 
 }
